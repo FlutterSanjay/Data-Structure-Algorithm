@@ -1,52 +1,65 @@
-// Reverse the Node
-#include<iostream>
+// Reverse Linked List
+#include<bits/stdc++.h>
 using namespace std;
-class Node{
-    public:
-    int val;
-    Node* next;
 
-    Node(int data){
-        val=data;
-        next=NULL;
-    }
+class Node{
+public:
+int data;
+Node* next;
+Node(int data){
+  this->data=data;
+  this->next=NULL;
+}
 };
 
-void insert(Node* &head,int data){
-    Node* temp=new Node(data);
-    temp->next=head;
+void insetionAtTail(Node* &head,Node* &tail,int data){
+  Node* temp=new Node(data);
+  if(tail==NULL){
     head=temp;
-}
-// reverse the node 
-Node* reverse_Node(Node* &head){
-    if(head==NULL || head->next==NULL){
-        return head;
-    }
-    // recursive call
-    Node* new_head=reverse_Node(head->next);
-    head->next->next=head;
-    head->next=NULL;
-    return new_head;
+    tail=temp;
+    return;
+  }
+  tail->next=temp;
+  tail=temp;
 }
 
-void display(Node* head){
- Node* temp=head;
- while(temp != NULL){
-    cout<<temp->val<<" ";
-    temp=temp->next;
- }
+// Reverse Linked List
+Node* reverseLinkedList(Node* &prev,Node* &curr){
+  if(curr==NULL){
+    return prev;
+  }
+  while(curr!=NULL){
+    Node* forward=curr->next;
+    curr->next=prev;
+    prev=curr;
+    curr=forward;
+  }
+  return prev;
 }
 
+
+// print linkedList
+void print(Node* &head){
+  Node* temp=head;
+  while(temp!=NULL){
+      cout<<temp->data<<" ";
+      temp=temp->next;
+  }
+}
 int main(){
-    Node* head=NULL;
-    insert(head,2);
-    insert(head,4);
-    insert(head,6);
-    insert(head,8);
-    insert(head,10);
-    display(head);
-    cout<<endl;
-    Node* temp=reverse_Node(head);
-    display(temp);
-    return 0;
+  Node* head=NULL;
+  Node* tail=NULL;
+  insetionAtTail(head,tail,1);
+  insetionAtTail(head,tail,2);
+  insetionAtTail(head,tail,3);
+  insetionAtTail(head,tail,4);
+  insetionAtTail(head,tail,5);
+  print(head);
+  Node* prev=NULL;
+  Node* curr=head;
+  Node* newHead=reverseLinkedList(prev,curr);
+  cout<<endl;
+  print(newHead);
+
+  return 0;
 }
