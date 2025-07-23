@@ -1,61 +1,75 @@
-// find the Middle Element 
-#include<iostream>
-using namespace std;
-class Node{
-    public:
-    int val;
-    Node* next;
+// find the Middle Element  
+// Algorithm Type -Tortoise T.C - O(n)
 
-    Node(int data){
-        val=data;
-        next=NULL;
-    }
+#include<bits/stdc++.h>
+using namespace std;
+
+class Node{
+public:
+int data;
+Node* next;
+Node(int data){
+  this->data=data;
+  next=NULL;
+}
 };
 
-void insert(Node* &head,int data){
-    Node* temp=new Node(data);
-    temp->next=head;
+void insetionAtTail(Node* &head,Node* &tail,int data){
+  Node* temp=new Node(data);
+  if(tail==NULL){
     head=temp;
+    tail=temp;
+    return;
+  }
+  tail->next=temp;
+  tail=temp;
 }
 
-void insert_tail(Node* &head,int data){
-    Node* temp=new Node(data);
-    Node* lnode=head;
-    while(lnode->next !=NULL){
-        lnode=lnode->next;
+// find Middle of Linked List
+int findMiddle(Node* &head){
+   
+    
+    if(head==NULL){
+        return -1;
     }
-    lnode->next=temp;
-}
-
-Node* middle(Node* &head){
-    Node* ptr=head;
-    Node* ptr1=head;
-    while(ptr!=NULL && ptr1->next!=NULL){
-        ptr=ptr->next;
-        ptr1=ptr1->next->next;
+    
+    if(head->next==NULL){
+        return head->data;
     }
-    return ptr;     
-}
-
-void display(Node* head){
-    while(head!=NULL){
-        cout<<head->val<<" ";
-        head=head->next;
+    Node* slow=head;
+    Node* fast=head->next;
+    
+    while(fast!=NULL && slow !=NULL){
+        fast=fast->next;
+        if(fast!=NULL){
+            fast=fast->next;
+            slow=slow->next;
+        }
     }
+    return slow->data;
 }
 
+
+// print linkedList
+void print(Node* &head){
+  Node* temp=head;
+ while(temp!=NULL){
+      cout<<temp->data<<" ";
+    temp=temp->next;
+ }
+}
 int main(){
-    Node* head=NULL;
-    insert(head,2);
-    int data;
-    for(int i=0;i<4;i++){
-        cout<<"Enter your no : ";
-        cin>>data;
-        insert_tail(head,data);
-    }
-    display(head);
-    cout<<endl;
-    Node* temp=middle(head);
-    cout<<temp->val;
-    return 0;
+  Node* head=NULL;
+  Node* tail=NULL;
+  insetionAtTail(head,tail,1);
+  insetionAtTail(head,tail,2);
+  insetionAtTail(head,tail,3);
+  insetionAtTail(head,tail,4);
+  insetionAtTail(head,tail,5);
+//   insetionAtTail(head,tail,6);
+  print(head);
+  cout<<endl;
+  cout<<findMiddle(head);
+
+  return 0;
 }
