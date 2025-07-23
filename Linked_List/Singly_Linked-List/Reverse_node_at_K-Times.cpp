@@ -1,64 +1,99 @@
-// Reverse the given node at k times
-#include<iostream>
-using namespace std;
-class Node{
-    public:
-    int val;
-    Node* next;
+// Reverse K Group TC-O(n)
 
-    Node(int data){
-        val=data;
-        next=NULL;
-    }
+#include<bits/stdc++.h>
+using namespace std;
+
+class Node{
+public:
+int data;
+Node* next;
+Node(int data){
+  this->data=data;
+  next=NULL;
+}
 };
 
-void insert(Node* &head,int data){
-    Node* temp=new Node(data);
-    temp->next=head;
+void insetionAtTail(Node* &head,Node* &tail,int data){
+  Node* temp=new Node(data);
+  if(tail==NULL){
     head=temp;
+    tail=temp;
+    return;
+  }
+  tail->next=temp;
+  tail=temp;
 }
 
-Node* reverse_k(Node* &head,int k){
-    Node* prevptr=NULL;
-    Node* currptr=head;
 
-    int count=0;
-    while(currptr !=NULL && count<k){
-        Node* nextptr=currptr->next;
-        currptr->next=prevptr;
-        prevptr=currptr;
-        currptr=nextptr;
-        count++;
-    }
-
-    if(currptr !=NULL){
-        Node* new_head=reverse_k(currptr,k);
-        head->next=new_head;
-    }
-    return prevptr;
-
-}
-
-void display(Node* head){
-    Node* temp=head;
+//find Length
+int findLength(Node* &head){
+    Node *temp = head;
+    int len = 0;
     while(temp != NULL){
-        cout<<temp->val<<" ";
-        temp=temp->next;
+        len++;
+        temp = temp->next;
     }
+    return len;
 }
 
+Node* reverseKGroup(Node* &head,int k){
+    if(head==NULL){
+        return NULL;
+    }
+    if(head->next==NULL){
+        return head;
+    }
+    int len = findLength(head);
+    if(k>len){
+        return head;
+    }
+
+    // Step:1
+    Node *prev = NULL;
+    Node *curr = head;
+    int i = 0;
+    while(i<k){
+        Node *forward = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = forward;
+        i++;
+    }
+
+    //Step:2
+
+    if(curr!=NULL){
+        head->next = reverseKGroup(curr, k);
+    }
+    //Step:3
+    return prev;
+}
+
+
+
+
+// print linkedList
+void print(Node* &head){
+  Node* temp=head;
+ while(temp!=NULL){
+      cout<<temp->data<<" ";
+    temp=temp->next;
+ }
+}
 int main(){
-    int k;
-    Node* head=NULL;
-    insert(head,2);
-    insert(head,3);
-    insert(head,4);
-    insert(head,6);
-    display(head);
-    cout<<endl;
-    cout<<"Enter your position to change the node : ";
-    cin>>k;
-    Node* temp=reverse_k(head,k);
-    display(temp);
-    return 0;
+  Node* head=NULL;
+  Node* tail=NULL;
+  insetionAtTail(head,tail,1);
+  insetionAtTail(head,tail,2);
+  insetionAtTail(head,tail,3);
+  insetionAtTail(head,tail,4);
+  insetionAtTail(head,tail,5);
+  insetionAtTail(head,tail,6);
+  print(head);
+  cout<<endl;
+  head=reverseKGroup(head,2);
+  print(head);
+
+
+  return 0;
 }
