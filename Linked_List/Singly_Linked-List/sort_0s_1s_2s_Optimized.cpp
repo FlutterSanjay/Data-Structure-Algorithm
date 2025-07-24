@@ -61,12 +61,27 @@ Node* sortLL(Node* &head){
     }
     curr=curr->next;
   }
+  Node *zero = zeroHead;
+  zeroHead = zeroHead->next;
+  zero->next = NULL;
+  delete zero;
 
-  zeroTail->next=oneHead->next;
-  oneTail->next=twoHead->next;
-  twoTail->next = NULL;
-  
-  return zeroHead->next;
+   Node *one = oneHead;
+   oneHead = oneHead->next;
+   one->next = NULL;
+   delete one;
+
+     Node *two = twoHead;
+   twoHead = twoHead->next;
+   two->next = NULL;
+   delete two;
+
+   
+   zeroTail->next = oneHead;
+   oneTail->next = twoHead;
+   twoTail->next = NULL;
+
+   return zeroHead;
 }
 
 void print(Node* &head){
