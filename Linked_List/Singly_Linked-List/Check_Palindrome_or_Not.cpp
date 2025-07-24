@@ -1,79 +1,122 @@
-// Check Palindrome or Not
-#include<iostream>
-using namespace std;
-class Node{
-    public:
-    int val;
-    Node* next;
+// Check wheather a Linked List is palindrome or not
+// TC - O(n) & SC - O(1)
 
-    Node(int data){
-        val=data;
-        next=NULL;
-    }
+
+#include<bits/stdc++.h>
+using namespace std;
+
+class Node{
+public:
+int data;
+Node* next;
+
+Node(int data){
+  this->data=data;
+  next=NULL;
+  }
 };
 
-void insert(Node* &head,int data){
-    Node* temp=new Node(data);
-    temp->next=head;
+void insertionAtTail(Node* &head,Node* &tail,int data){
+  Node* temp=new Node(data);
+  if(tail==NULL){
     head=temp;
+    tail=temp;
+    return;
+  }
+  tail->next=temp;
+  tail=temp;
+  tail->next=NULL;
 }
-void insert_tail(Node* &head,int data){
-    Node* temp=new Node(data);
-    Node* lnode=head;
-    while(lnode->next != NULL){
-        lnode=lnode->next;
+// find middle element
+Node* middleElement(Node* &head){
+  if(head==NULL){
+    return NULL;
+  }
+  if(head->next == NULL){
+    return head;
+  }
+  Node* slow=head;
+  Node* fast=head;
+  while(fast!=NULL){
+    fast=fast->next;
+    if(fast!=NULL){
+      fast=fast->next;
+      slow=slow->next;
     }
-    lnode->next=temp;
+  }
+  return slow;
 }
 
-bool palin(Node* &head){
-    Node* slow=head;
-    Node* fast=head;
+Node* reverseLL(Node* &head){
+  if(head==NULL){
+    return NULL;
+  };
 
-    while(fast!=NULL && fast->next!=NULL){
-        slow=slow->next;
-        fast=fast->next->next;
+  Node* prev=NULL;
+  Node* curr=head;
+  while(curr!=NULL){
+    Node* forward=curr->next;
+    curr->next=prev;
+    prev=curr;
+    curr=forward;
+  }
+  return prev;
+}
+
+bool comparedLL(Node* &temp1,Node* &temp2){
+  if(temp1==NULL || temp2==NULL){
+    return false;
+  };
+  while(temp2!=NULL){
+    if(temp1->data != temp2->data){
+      return false;
     }
-    Node* temp=slow->next;
-    Node* prev=slow;
-    slow->next=NULL;
+    temp1=temp1->next;
+    temp2=temp2->next;
+  }
+  return true;
+}
 
-    // reverse the second half node
+
+bool isPalindrome(Node* &head){
+     Node* mid=middleElement(head);
+  cout<<"Mid Element:"<<mid->data<<endl;
+  
+  mid->next=reverseLL(mid->next); // list join ho gya aadha reverse wala
+  
+  Node* temp1=mid->next;
+  
+   Node* temp2=head;
+  
+    return comparedLL(temp2,temp1);
+}
+
+void print(Node* &head){
+    Node* temp=head;
     while(temp!=NULL){
-        Node* next_node=temp->next;
-        temp->next=prev;
-        prev=temp;
-        temp=next_node;
-    }
-    // compare two linked list
-    Node* head1=head;
-    Node* head2=prev;
-    while(head2!=NULL){
-        if(head1->val!=head2->val){
-         return false;
-        }
-        head1=head1->next;
-        head2=head2->next;
-    }
-    return true;
-}
-void display(Node* head){
-    while(head!=NULL){
-        cout<<head->val<<" ";
-        head=head->next;
+        cout<<temp->data<<" ";
+        temp=temp->next;
     }
 }
-int main(){
-    Node* head=NULL;
-    insert(head,2);
-    int data;
-    for(int i=0;i<5;i++){
-        cout<<"Enter your no:";
-        cin>> data;
-        insert_tail(head,data);
-    }
-    display(head);
-    cout<<endl;
-    cout<<palin(head);    // 1- true,0-false;
-    return 0;
+
+int main(){  
+  Node* head=NULL;
+  Node* tail=NULL;
+  insertionAtTail(head,tail,1);
+  insertionAtTail(head,tail,2);
+  insertionAtTail(head,tail,3);
+  insertionAtTail(head,tail,2);
+  insertionAtTail(head,tail,1);
+ 
+  
+  print(head);
+  cout<<endl;
+  
+  if(!isPalindrome){
+      cout<<"Not Palindrome";
+  }else{
+      cout<<"Palindrome";
+  }
+ 
+  return 0;
 }
