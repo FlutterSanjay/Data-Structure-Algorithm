@@ -1,6 +1,7 @@
 // Optimized Sort 0s,1s,2s
 // Pyaari Approach
 // TC -O(n) & SC - O(1)
+
 #include<bits/stdc++.h>
 using namespace std;
 
@@ -29,6 +30,12 @@ void insertionAtTail(Node* &head,Node* &tail,int data){
 
 // sort 0s,1s,2s
 Node* sortLL(Node* &head){
+    if(head== NULL){
+        return NULL;
+    }
+    if(head->next==NULL){
+        return head;
+    }
   Node* zeroHead=new Node(-1);
   Node* zeroTail=zeroHead;
 
@@ -61,15 +68,21 @@ Node* sortLL(Node* &head){
     }
     curr=curr->next;
   }
+
+  // for Zero 
   Node *zero = zeroHead;
   zeroHead = zeroHead->next;
   zero->next = NULL;
   delete zero;
 
+  // for One
    Node *one = oneHead;
    oneHead = oneHead->next;
    one->next = NULL;
    delete one;
+
+
+   // for Two
 
      Node *two = twoHead;
    twoHead = twoHead->next;
@@ -95,11 +108,11 @@ void print(Node* &head){
 int main(){  
   Node* head=NULL;
   Node* tail=NULL;
+  insertionAtTail(head,tail,2);
   insertionAtTail(head,tail,1);
-  insertionAtTail(head,tail,2);
-  insertionAtTail(head,tail,2);
-  insertionAtTail(head,tail,0);
-  insertionAtTail(head,tail,0);
+  insertionAtTail(head,tail,1);
+  insertionAtTail(head,tail,1);
+  insertionAtTail(head,tail,1);
   insertionAtTail(head,tail,0);
   print(head);
   cout<<endl;
