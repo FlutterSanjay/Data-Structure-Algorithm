@@ -1,5 +1,5 @@
 // Find the Intersection b/w two Linked List
-// TC -O(n) SC- O(1)
+// TC -O(max(m,n)) SC- O(1)
 #include<bits/stdc++.h>
 using namespace std;
 class Node{
