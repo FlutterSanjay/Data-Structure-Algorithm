@@ -1,72 +1,89 @@
-// Rotate the Node Kth Times from the Right side
-#include<iostream>
+// Rotate the Linked List by Kth Times
+// SC- O(n) & TC - O(n)
+
+#include<bits/stdc++.h>
 using namespace std;
 class Node{
-    public:
-    int val;
-    Node* next;
-
-    Node(int data){
-        val=data;
-        next=NULL;
-    }
+public:
+int data;
+Node* next;
+Node(int data){
+  this->data=data;
+  this->next=NULL;
+}
 };
 
-void insert(Node* &head,int data){
-    Node* temp=new Node(data);
-    temp->next=head;
-    head=temp;
+
+void print(Node* &head){
+  Node* temp=head;
+  while(temp!=NULL){
+      cout<<temp->data<<" ";    
+      temp=temp->next;
+  }
 }
 
-void insert_tail(Node* &head,int data){
-    Node* temp=new Node(data);
-    Node* lnode=head;
-    while(lnode->next!=NULL){
-        lnode=lnode->next;
-    }
-    lnode->next=temp;
+// find Length of Linked List
+int findLength(Node* &head){
+  Node* temp=head;
+  int len=0;
+  while(temp!=NULL){
+    len++;
+    temp=temp->next;
+  }
+  return len;
 }
 
-Node* rotate(Node* &head,int k){
-    int n=0;
-    Node* tail=head;
-    while(tail->next!=NULL){
-        n++;
-        tail=tail->next;
-    }
-    n++;
-    k=k%n;
+Node* rotateList(Node* &head,int k){
+  if(head==NULL|| head->next==NULL){
+    return head;
+  }
+  int len = findLength(head);
+  int k1=k%len;
+  
+  if(k1==0){
+    return head;
+  }
 
-    if(k==0) return head;
-    tail->next=head;
-    Node* temp=head;
-    for(int i=1;i<n-k;i++){
-        temp=temp->next;
-    }
-
-    Node* new_head=temp->next;
-    temp->next=NULL;
-    return new_head;
-}
-void diplay(Node* head){
-    while(head!=NULL){
-        cout<<head->val<<" ";
-        head=head->next;
-    }
+  // find the actual position whose next will be null
+  int pos=len-k1-1;
+  Node* temp=head;
+  int i=0;
+  while(i<pos){
+    temp=temp->next;
+    i++;
+  }
+  Node* newHead=temp->next;
+  temp->next=NULL;
+  Node* temp2=newHead;
+  while(temp2->next!=NULL){
+    temp2=temp2->next;
+  }
+  temp2->next=head;
+  return newHead;
+  
 }
 
 int main(){
-    Node* head=NULL;
-    insert(head,1);
-    int data;
-    for(int i=0;i<6;i++){
-        cout<<"Enter your no : ";
-        cin>>data;
-        insert_tail(head,data);
-    }
-    diplay(head);
-    cout<< endl;
-    Node* temp=rotate(head,2);
-    diplay(temp);
-    return 0;
+  Node* head1=new Node(1);
+  Node* second = new Node(2);
+  Node* third = new Node(3);
+  Node* fourth = new Node(4);
+  Node* fifth = new Node(5);
+ 
+  head1->next=second;
+  second->next=third;
+  third->next=fourth;
+  fourth->next=fifth;
+  fifth->next=NULL;
+
+  print(head1);
+  cout<<endl;
+
+  Node* newHead=rotateList(head1,2);
+  print(newHead);
+
+ 
+
+
+  return 0;
 }
