@@ -41,6 +41,7 @@ Node* deleteNode(Node* &head,int S,int D){
     }
     return head;
   }
+  while(temp!=NULL){
   int i=0;
   
   while(i<S-1 && temp!=NULL){
@@ -51,16 +52,20 @@ Node* deleteNode(Node* &head,int S,int D){
     return head;
   }
   //delete Part
+  Node* curr=temp->next;
   i=0;
-  while(i<D && temp->next!=NULL){
-    Node* del=temp->next;
+  while(i<D && curr!=NULL){
+    Node* del=curr;
   
-    temp->next=temp->next->next;
+    curr=curr->next;
     del->next=NULL;
     delete del;
      i++;
   }
   
+  temp->next=curr;
+  temp=curr;
+  }
   return head;
   
   
@@ -72,12 +77,16 @@ int main(){
   Node* third = new Node(3);
   Node* fourth = new Node(4);
   Node* fifth = new Node(5);
+   Node* sixth = new Node(6);
+   Node* seven = new Node(7);
  
   head1->next=second;
   second->next=third;
   third->next=fourth;
   fourth->next=fifth;
-  fifth->next=NULL;
+  fifth->next=sixth;
+  sixth->next=seven;
+  seven->next=NULL;
 
   print(head1);
   cout<<endl;
