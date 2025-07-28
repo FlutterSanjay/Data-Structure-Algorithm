@@ -13,7 +13,24 @@ void insertAtBottom(stack<int>& s,int target){
   insertAtBottom(s,target);
   s.push(temp);
 }
-
+void printStack(stack<int>& s){
+     while(!s.empty()){
+    cout<<s.top()<<" ";
+    s.pop();
+  }
+ 
+}
+void solveStack(stack<int>& s){
+    if(s.empty()){
+        cout<<"Stack is Empty!"<<endl;
+        return;
+    }
+    int target=s.top();
+  s.pop();
+  insertAtBottom(s,target);
+  printStack(s);
+    
+}
 
 int main(){
 stack<int> s;
@@ -22,13 +39,9 @@ stack<int> s;
   s.push(27);
   s.push(32);
   s.push(11);
-  int target=s.top();
-  s.pop();
-  insertAtBottom(s,target);
-  while(!s.empty()){
-    cout<<s.top()<<" ";
-    s.pop();
-  }
+  
+  solveStack(s);
+  
 
   return 0;
 }
