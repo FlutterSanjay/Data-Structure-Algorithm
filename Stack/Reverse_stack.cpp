@@ -1,36 +1,43 @@
-#include<iostream>
-#include<vector>
-#include<stack>
+// Reverse Stack
+#include<bits/stdc++.h>
 using namespace std;
-void reverse(stack<int> &st){
-    stack<int> copy;
-    for(int i=0;!st.empty();i++){
-        copy.push(st.top());
-        st.pop();
+void insertAtBottom(stack<int>&s,int target){
+    if(s.empty()){
+        s.push(target);
+        return;
     }
-    vector<int> arr;
-    for(int i=0;!copy.empty();i++){
-        arr.push_back(copy.top());
-        copy.pop();
+
+    int temp = s.top();
+    s.pop();
+
+    insertAtBottom(s, target);
+
+    s.push(temp);
+}
+
+void reverseStack(stack<int>&s){
+    if(s.empty()){
+        return;
     }
-    int si=arr.size();
-    for(int i=0;i<si;i++){
-        st.push(arr[(si-1)-i]);
-    }
-    cout<<"Reverse of Stack : ";
-    while(!st.empty()){
-        cout<<st.top()<<" ";
-        st.pop();
-    }
+    int target = s.top();
+    s.pop();
+    reverseStack(s);
+    insertAtBottom(s, target);
 }
 int main(){
+
     stack<int> st;
     st.push(1);
     st.push(2);
     st.push(3);
     st.push(4);
     st.push(5);
-    st.push(6);
-    reverse(st);
+    reverseStack(st);
+
+    while(!st.empty()){
+        cout << st.top() << " ";
+        st.pop();
+    }
+
     return 0;
 }
