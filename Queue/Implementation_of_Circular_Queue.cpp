@@ -1,67 +1,74 @@
-// Implementing the Circular Queue
-#include<iostream>
+// Implement circular Queue
+#include<bits/stdc++.h>
 using namespace std;
+class CQueue{
+public:
+int * arr;
+int front;
+int rear;
+int size;
+CQueue(int n){
+  this->size=n;
+  arr=new int[n];
+  front =-1;
+  rear=-1;
+}
 
-class queue{
-    
-    int *arr;
-    int front;
-    int back;
-    int size;
-    public:
-    queue(){
-        cout<<"Enter the size of Queue :";
-        cin>>size;
-        arr=new int[size];
-        front=back=-1;
-    }
-    void insert(int data){
-        if((front== 0 && back== size-1) || (back==(front-1)%(size-1))){
-            cout<<"Queue is Full ..";
-        }
-        else if(front==-1){
-            front=back=0;
-            arr[back]=data;
-        }
-        else if(front!=0 && back== size-1){
-            back=0;
-            arr[back]=data;
-        }
-        else {
-            back++;
-        }
-    }
-    
-    int pop(){
-        if(front==-1){
-            cout<<"Queue is Empty...";
-            return -1;
-        }
-        int ans=arr[front];
-        if(front==back){
-            front=back=-1;
-        }
-        else if(front==size-1){
-            front=0;
-        }
-        else {
-            front++;
-        }
-        return ans;
-        }
+// Push
+void push(int data){
+  // full or not
+  if(front==0 && rear==size-1 ){
+    cout<<"Queue is full"<<endl;
+    return;
+  }else{
+    if(front==-1){
+      front=0;
+      rear=0;
+
+      arr[rear++]=data;
+    }else if(rear==size -1 && front!=0){
+        rear=0;
+        arr[rear]=data;
+        
+    }else{
+      arr[rear++]=data;
+      }
+  }
+}
+//Pop
+int pop(){
+  // empty or not 
+  if(front==-1){
+    cout<<"Queue is empty"<<endl;
+    return -1;
+  }
+  
+    int data=arr[front++];
+  if(front==rear){
+    front=-1;
+    rear=-1;
+  }
+  return data;
+}
+
 };
-    
-    int main(){
-        queue q;
-        int data,del;
-        cout<<"How many you want to insert : ";
-        cin>>del;
-        for(int i=0;i<del;i++){
-            cout<<"Enter your No : ";
-            cin>>data;
-            q.insert(data);
-        }
-        int remove=q.pop();
-        cout<<"Remove Element : "<<remove<<endl;
-        return 0;
-    }
+
+int main(){
+  CQueue q(5);
+  q.push(1);
+  q.push(2);
+  q.push(3);
+  q.push(4);
+      q.push(5);
+
+
+  cout<<q.pop()<<endl;
+  cout<<q.pop()<<endl;
+  cout<<q.pop()<<endl;
+  cout<<q.pop()<<endl;
+
+      cout<<q.pop()<<endl;
+
+
+  return 0;
+}

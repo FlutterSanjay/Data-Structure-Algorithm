@@ -18,6 +18,7 @@ Queue(int s){
 void push(int data){
   if(size==rear){
     cout<<"Queue is full"<<endl;
+    return;
   }else{
     arr[rear]=data;
     rear++;
@@ -27,6 +28,7 @@ void push(int data){
 int pop(){
   if(front==rear){
     cout<<"Queue is empty1"<<endl;
+    return -1;
   }
     int data= arr[front];
     front++;
@@ -42,6 +44,7 @@ int pop(){
 int frontElement(){
   if(front==rear){
     cout<<"Queue is empty1"<<endl;
+    return -1;
   }
     return arr[front];
  
