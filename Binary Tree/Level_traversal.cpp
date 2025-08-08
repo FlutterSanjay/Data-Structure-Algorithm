@@ -14,6 +14,8 @@ class Node{
         right=NULL;
     }
 };
+
+
 Node* buildTree(Node* root){
     cout<<"Enter the data : "<<endl;
     int data;
@@ -29,37 +31,38 @@ Node* buildTree(Node* root){
     return root;
 }
 
-void level(Node* root){
-    queue<Node*>q;
-    q.push(root);
-    q.push(NULL);
+void LevelOrderTravel(Node* &root){
+  if(root==NULL){
+    return;
+  }
+ 
+  queue<Node*> q;
+  // initial Node
+  q.push(root);
 
-    while(!q.empty()){
-        Node* temp=q.front();
-        q.pop();
+  while(!q.empty()){
+    
+Node* temp=q.front();
+    q.pop();
+    cout<<temp->val<<" ";
+   
 
-        if(temp==NULL){
-            cout<<endl;
-            if(!q.empty()){
-                q.push(NULL);
-            }
-        }
-        else{
-            cout<<temp->val<<" ";
-            if(temp->left){
-                q.push(temp->left);
-            }
-            if(temp->right){
-                q.push(temp->right);
-            }
-        }
+    if(temp->left){
+      q.push(temp->left);
     }
+    if(temp->right){
+      q.push(temp->right);
+    }
+   
+  }
+
 }
+
 int main(){
     Node* root=NULL;
     root=buildTree(root);
 
     cout<<"Printing the level order treversal output : "<<endl;
-    level(root);
+    LevelOrderTravel(root);
     return 0;
 }
