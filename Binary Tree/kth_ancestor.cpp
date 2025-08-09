@@ -1,4 +1,5 @@
-// implement Tree
+// Kth Ancestor in Binary Tree
+// Given a binary tree and a node value, find the kth ancestor of that node in the tree.
 #include<bits/stdc++.h>
 using namespace std;
 
