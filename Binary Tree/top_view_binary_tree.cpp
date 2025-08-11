@@ -63,11 +63,49 @@ void TopView(Node* root){
         cout << it.second << " ";
     }
 }
+
+void BottomView(Node* root){
+    if(root==NULL){
+        return;
+    }
+    // requirement
+    map<int, int> mp;
+    queue<pair<Node *, int>> q;
+
+    // Initialization
+    q.push({root, 0});
+
+    while(!q.empty()){
+        pair<Node *, int> temp = q.front();
+        q.pop();
+
+        Node *frontNode = temp.first;
+        int hd = temp.second;
+
+        // main Condition for bottom view
+        mp[hd] = frontNode->data;
+
+        // left part
+        if(frontNode->left){
+            q.push({frontNode->left, hd - 1});
+        }
+
+        if(frontNode->right){
+            q.push({frontNode->right, hd + 1});
+        }
+    }
+    for(auto it : mp){
+        cout << it.second << " ";
+    }
+}
 int main(){
     Node *root = NULL;
     CreateTree(root);
     cout << "Top View of the Binary Tree: ";
     TopView(root);
+    cout << endl;
+    cout << "Bottom View of the Binary Tree: ";
+    BottomView(root);
     cout << endl;
     return 0;
     
