@@ -1,4 +1,4 @@
-// Fastest way to find the diameter of Tree
+// Fastest way to check if a Binary Tree is balanced
 #include<bits/stdc++.h>
 using namespace std;
 class Node{
