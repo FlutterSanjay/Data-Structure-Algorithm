@@ -1,4 +1,3 @@
-// Lowest Common Ancestor in BST
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -41,6 +40,7 @@ Node *InsertData(Node *&root, int data)
 void CreateBST(Node *&root)
 {
     int data;
+    cout << "Enter your node :";
 
     cin >> data;
 
@@ -51,34 +51,32 @@ void CreateBST(Node *&root)
     }
 }
 
-Node *LCA(Node *&root, int p, int q)
+int KSmallestElement(Node *&root, int &k)
 {
-
     if (root == NULL)
     {
-        return NULL;
-    }
-    // 4 Cases
-    if (p < root->data && q < root->data)
-    {
-        root->left = LCA(root->left, p, q);
-    }
-    else if (p > root->data && q > root->data)
-    {
-        root->right = LCA(root->right, p, q);
+        return -1;
     }
 
-    return root;
+    int leftPart = KSmallestElement(root->left, k);
+    if (leftPart != -1)
+    {
+        return leftPart;
+    }
+    k--;
+    if (k == 0)
+    {
+        return root->data;
+    }
+    int rightPart = KSmallestElement(root->right, k);
+    return rightPart;
 }
 
 int main()
 {
     Node *root = NULL;
-    cout << "Enter your data: ";
     CreateBST(root);
-
-    Node *result = LCA(root, 70, 160);
-    cout << "LCA : " << result->data;
-
+    int k = 3;
+    cout << "The Kth Smallest Element : " << KSmallestElement(root, k);
     return 0;
 }
