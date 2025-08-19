@@ -87,7 +87,7 @@ Node *SortedDLLToBST(Node *&head, int n)
         return NULL;
 
     // Left subtree
-    Node *leftSubTree = SortedDLLToBST(head, n / 2);
+    Node *leftSubTree = SortedDLLToBST(head, n - 1 - n / 2);
 
     // Root node
     Node *root = head;
@@ -97,7 +97,7 @@ Node *SortedDLLToBST(Node *&head, int n)
     head = head->right;
 
     // Right subtree
-    root->right = SortedDLLToBST(head, n - n / 2 - 1);
+    root->right = SortedDLLToBST(head, n / 2);
 
     return root;
 }
