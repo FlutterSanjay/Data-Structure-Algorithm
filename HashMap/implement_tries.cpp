@@ -1,29 +1,28 @@
-// Implement the Tries
+// implementation of tries
 #include <bits/stdc++.h>
 using namespace std;
 
-class TriesNode
+class TrieNode
 {
 public:
     char data;
-    TriesNode *children[26];
+    TrieNode *children[26];
     bool isTerminal;
 
-    TriesNode(char ch)
+    TrieNode(char ch)
     {
-        this->data = ch;
+        data = ch;
         for (int i = 0; i < 26; i++)
         {
             children[i] = NULL;
         }
-        this->isTerminal = false;
+        isTerminal = false;
     }
 };
 
-// Insertion in Tries
-void insertion(TriesNode *root, string word)
+// Insertion
+void Insertion(TrieNode *root, string word)
 {
-    // Base Case
     if (word.length() == 0)
     {
         root->isTerminal = true;
@@ -33,58 +32,80 @@ void insertion(TriesNode *root, string word)
     char ch = word[0];
     int index = ch - 'A';
 
-    TriesNode *child;
-    // present
+    TrieNode *child;
+
+    // Present
     if (root->children[index] != NULL)
     {
         child = root->children[index];
     }
     else
     {
-        // not Present
-        child = new TriesNode(ch);
+        // Not Present
+        child = new TrieNode(ch);
         root->children[index] = child;
     }
-    // Recursive Call
-    insertion(child, word.substr(1));
+    Insertion(child, word.substr(1));
 }
 
-// Search in Tries
-bool search(TriesNode *root, string word)
+// Searching
+
+bool Searching(TrieNode *root, string word)
 {
-    // Base Case
+    // base case
     if (word.length() == 0)
     {
         return root->isTerminal;
     }
+
     char ch = word[0];
     int index = ch - 'A';
-    TriesNode *child;
-    // present
+    TrieNode *child;
+    // Present
     if (root->children[index] != NULL)
     {
         child = root->children[index];
     }
     else
     {
+        // Not Present
         return false;
     }
-    return search(child, word.substr(1));
-};
+    return Searching(child, word.substr(1));
+}
 
+bool deletion(TrieNode *root, string word)
+{
+    if (word.length() == 0)
+    {
+        root->isTerminal = false;
+        return true;
+    }
+
+    char ch = word[0];
+    int index = ch - 'A';
+    TrieNode *child;
+    // Present
+    if (root->children[index] != NULL)
+    {
+        child = root->children[index];
+    }
+    else
+    {
+        // Not present
+        return false;
+    }
+    return deletion(child, word.substr(1));
+}
 int main()
 {
-    TriesNode *root = new TriesNode('\0');
-    insertion(root, "ABCD");
-    insertion(root, "ABCE");
-    insertion(root, "XYZ");
-    insertion(root, "XYA");
-    insertion(root, "PQR");
-    insertion(root, "PQS");
-    insertion(root, "PQRS");
+    TrieNode *root = new TrieNode('\0');
+    Insertion(root, "ABCD");
+    cout << Searching(root, "ABCD") << endl;
+    cout << Searching(root, "ABCE") << endl;
+    cout << "Deletion Sucess : " << deletion(root, "ABCD") << endl;
+    cout << Searching(root, "ABCD") << endl;
+    cout << Searching(root, "ABCE") << endl;
 
-    cout << "Present or Not " << search(root, "ABCD") << endl;
-    cout << "Present or Not " << search(root, "ABCE") << endl;
-    cout << "Present or Not " << search(root, "XYB") << endl;
     return 0;
 }
