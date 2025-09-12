@@ -1,43 +1,42 @@
-// Ninja trainig using Tabulation Approch
+// total Uniue Path
 #include <bits/stdc++.h>
 using namespace std;
 
-int ninjaTraining(int day, int last, vector<vector<int>> &points, vector<vector<int>> &dp, int n)
+int func(int m, int n, vector<vector<int>> &dp)
 {
-    dp[0][0] = max(points[0][1], points[0][2]);
-    dp[0][1] = max(points[0][0], points[0][2]);
-    dp[0][2] = max(points[0][0], points[0][1]);
-    dp[0][3] = max(points[0][0], max(points[0][0], points[0][1]));
-
-    for (int day = 1; day < n; day++)
+    dp[0][0] = 1;
+    for (int i = 0; i < m; i++)
     {
-        for (int last = 0; last <= 3; last++)
+        for (int j = 0; j < n; j++)
         {
-            dp[day][last] = 0;
-
-            for (int task = 0; task < 3; task++)
+            if (i == 0 && j == 0)
             {
-                if (task != last)
+                dp[i][j] = 1;
+            }
+            else
+            {
+                int up = 0;
+                int left = 0;
+                if (i > 0)
                 {
-                    int point = points[day][task] + dp[day - 1][task];
-                    dp[day][last] = max(dp[day][last], point);
+                    up = dp[i - 1][j];
                 }
+                if (j > 0)
+                {
+                    left = dp[i][j - 1];
+                }
+                dp[i][j] = up + left;
             }
         }
     }
-    return dp[n - 1][3];
+    return dp[m - 1][n - 1];
 }
 
 int main()
 {
-
-    vector<vector<int>> arr = {
-        {10, 40, 70}, // Day 1
-        {20, 50, 80}, // Day 2
-        {30, 60, 90}  // Day 3
-    };
-    int n = arr.size();
-    vector<vector<int>> dp(n, vector<int>(4, -1));
-    cout << ninjaTraining(n - 1, 3, arr, dp, n);
+    int m = 3;
+    int n = 3;
+    vector<vector<int>> dp(m, vector<int>(n, -1));
+    cout << func(m, n, dp);
     return 0;
 }
