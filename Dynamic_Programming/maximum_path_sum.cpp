@@ -1,3 +1,42 @@
+/*
+int getMaxPathSum(vector<vector<int>> &matrix)
+{
+    int m = matrix.size();
+    int n = matrix[0].size();
+    vector<vector<int>> dp(m, vector<int>(n, -1));
+
+    // base case: first row
+    for (int j = 0; j < n; j++) {
+        dp[0][j] = matrix[0][j];
+    }
+
+    // fill dp table
+    for (int i = 1; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+
+            int s = matrix[i][j] + dp[i - 1][j]; // straight
+
+            int ld = matrix[i][j];
+            if (j - 1 >= 0) ld += dp[i - 1][j - 1];
+            else ld += -1e9;
+
+            int rd = matrix[i][j];
+            if (j + 1 < n) rd += dp[i - 1][j + 1];
+            else rd += -1e9;
+
+            dp[i][j] = max(s, max(ld, rd));
+        }
+    }
+
+    // find max in last row
+    int maxi = dp[m - 1][0];
+    for (int j = 1; j < n; j++) {
+        maxi = max(maxi, dp[m - 1][j]);
+    }
+    return maxi;
+}
+
+*/
 // Maximum path sum in the Matrix.
 #include <bits/stdc++.h>
 using namespace std;
